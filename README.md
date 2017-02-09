@@ -1,19 +1,14 @@
 # Setting private Monero testnet network
 
-Having private [Monero](https://getmonero.org/) testnet network can be very useful, as you can play around
-with Monero without risking making expensive mistakes on real network. However,
-it is not clear how to set up a private testnet network. In this example, this
-is demonstrated.
+Running a private [Monero](https://getmonero.org/) testnet network can be very useful, as you can play around with Monero without risking making expensive mistakes on real network. However, it is usually not clear how to set up a private testnet network. In this guide, this is demonstrated.
 
-The example was executed on Lubuntu 15.10 x64 using Monero 0.9.
+The example in this guide was executed on Lubuntu 16.10 x64 using Monero v0.10.1.0
 Instructions on how to compile Monero are avaliable here:
 [compile-monero-09-on-ubuntu](https://github.com/moneroexamples/compile-monero-09-on-ubuntu).
 
 ## Testnet network
 
-The testnet Monero network will include 3 nodes, each with its own blockchain database
-and a corresponding wallet on a single computer. The three testnet nodes will be listening
-at the following ports 28080, 38080 and 48080, respectively.
+The testnet Monero network will include 3 nodes, each with its own blockchain database and a corresponding wallet on a single computer. The three testnet nodes will be listening at the following ports: 28080, 38080 and 48080, respectively.
 
 
 The example is based on the following reddit posts:
@@ -28,22 +23,22 @@ Also much thanks go to reddit's user [o--sensei](https://www.reddit.com/user/o--
 Each of the nodes will have a corresponding wallet. Thus we create the wallets first.
 I assume that the wallets will be called `wallet_01.bin`,
 `wallet_02.bin` and `wallet_03.bin`. Also, I assume that the wallets will be located
-in `~/testnet` folder.
+in `/opt/monero/testnet` folder.
 
-Create the `~/testnet` folder and go into it:
+Create the `/opt/monero/testnet` folder and go into it:
 
 ```bash
-mkdir ~/testnet && cd ~/testnet
+mkdir /opt/monero/testnet && cd /opt/monero/testnet
 ```
 
 For the testnet network, I prefer to have fixed addresses for each wallet and no password.
 The reason is that it is much easier to work with such testnet wallets.
 
-Execute the following commands to create three wallets without password.
+Execute the following commands to create three wallets without passwords.
 
 **For wallet_01.bin:**
 ```bash
-echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_01.bin  --restore-deterministic-wallet --electrum-seed="sequence atlas unveil summon pebbles tuesday beer rudely snake rockets different fuselage woven tagged bested dented vegan hover rapid fawns obvious muppet randomly seasons randomly" --password "" --log-file ~/testnet/wallet_01.log;  echo ""
+echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_01.bin  --restore-deterministic-wallet --electrum-seed="sequence atlas unveil summon pebbles tuesday beer rudely snake rockets different fuselage woven tagged bested dented vegan hover rapid fawns obvious muppet randomly seasons randomly" --password "" --log-file /opt/monero/testnet/wallet_01.log;  echo ""
 ```
 
 Resulting address:
@@ -51,10 +46,9 @@ Resulting address:
 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8
 ```
 
-The command creates a deterministic wallet and exits after its created. The reason for exit is
-that `simplewallet` may crash if the blockchain is empty.
+The command creates a deterministic wallet and exits after its created. The reason for exit is that `monero-wallet-cli` may crash if the blockchain is empty.
 
-The `simplewallet` options are:
+The `monero-wallet-cli` options are:
 
  - *testnet*   - Used to deploy testnets. The daemon must be launched with --testnet flag.
  - *generate-new-wallet*    - Generate new wallet and save it to <arg> or <address>.wallet by default.
@@ -65,7 +59,7 @@ The `simplewallet` options are:
 
 **For wallet_02.bin:**
 ```bash
-echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file ~/testnet/wallet_02.log;  echo ""
+echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file /opt/monero/testnet/wallet_02.log;  echo ""
 ```
 
 Resulting address:
@@ -73,11 +67,11 @@ Resulting address:
 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh
 ```
 
-The `simplewallet` options are as before.
+The `monero-wallet-cli` options are as before.
 
 **For wallet_03.bin:**
 ```bash
-echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file ~/testnet/wallet_03.log;  echo ""
+echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file /opt/monero/testnet/wallet_03.log;  echo ""
 ```
 
 Resulting address:
@@ -85,17 +79,17 @@ Resulting address:
 A2rgGdM78JEQcxEUsi761WbnJWsFRCwh1PkiGtGnUUcJTGenfCr5WEtdoXezutmPiQMsaM4zJbpdH5PMjkCt7QrXAhV8wDB
 ```
 
-The `simplewallet` options are as before.
+The `monero-wallet-cli` options are as before.
 
 ## Step 2: Start first node
 
-The node will listen for connections at port 28080 and connect to the two other nodes, i.e., those on ports 38080 and 48080. It will store its blockchain in `~/testnet/node_01`.
+The node will listen for connections at port 28080 and connect to the two other nodes, i.e., those on ports 38080 and 48080. It will store its blockchain in `/opt/monero/testnet/node_01`.
 
 ```bash
-/opt/monero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080
+/opt/monero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir /opt/monero/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080
 ```
 
-The `bitmonerod` options are:
+The `monerod` options are:
 
  - *testnet*   - Run on testnet. The wallet must be launched with --testnet flag.
  - *no-igd*    - Disable UPnP port mapping.
@@ -107,13 +101,13 @@ The `bitmonerod` options are:
 
 ## Step 3: Start second node
 
-The node will listen for connections at port 38080 and connect to the two other nodes, i.e., those on ports 28080 and 48080. It will store its blockchain in `~/testnet/node_02`.
+The node will listen for connections at port 38080 and connect to the two other nodes, i.e., those on ports 28080 and 48080. It will store its blockchain in `/opt/monero/testnet/node_02`.
 
 ```bash
-/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080
+/opt/monero/monerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080
 ```
 
-Additional `bitmonerod` options are:
+Additional `monerod` options are:
 
  - *testnet-p2p-bind-port* - Port for testnet p2p network protocol.
  - *testnet-rpc-bind-port* - Port for testnet RPC server.    
@@ -121,14 +115,14 @@ Additional `bitmonerod` options are:
 
 ## Step 4: Start third node
 
-The node will listen for connections at port 48080 and connect to the two other nodes, i.e., those on ports 28080 and 38080. It will store its blockchain in `~/testnet/node_03`.
+The node will listen for connections at port 48080 and connect to the two other nodes, i.e., those on ports 28080 and 38080. It will store its blockchain in `/opt/monero/testnet/node_03`.
 
 
 ```bash
-/opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080
+/opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080
 ```
 
-`bitmonerod` options as before, but with different ports.
+`monerod` options as before, but with different ports.
 
 ## Step 5: Start mining
 
@@ -161,7 +155,7 @@ through transfers, from the remaining wallets.
 
 wallet_01:
 ```
-/opt/bitmonero/simplewallet --testnet --trusted-daemon --wallet-file ~/testnet/wallet_01.bin --password "" --log-file ~/testnet/wallet_01.log
+/opt/monero/monero-wallet-cli --testnet --trusted-daemon --wallet-file /opt/monero/testnet/wallet_01.bin --password "" --log-file /opt/monero/testnet/wallet_01.log
 ```
 
 wallet_02:
@@ -171,13 +165,13 @@ wallet_02:
 
 wallet_03:
 ```
-/opt/bitmonero/simplewallet --testnet --daemon-port 48081 --trusted-daemon --wallet-file ~/testnet/wallet_03.bin --password "" --log-file ~/testnet/wallet_03.log
+/opt/monero/monero-wallet-cli --testnet --daemon-port 48081 --trusted-daemon --wallet-file /opt/monero/testnet/wallet_03.bin --password "" --log-file /opt/monero/testnet/wallet_03.log
 ```
 
 
 ## Testnet folder structure
 
-The resulting `~/testnet` folder structure should be as follows:
+The resulting `/opt/monero/testnet` folder structure should be as follows:
 ```bash
 ./testnet/
 ├── node_01
@@ -221,17 +215,17 @@ For example, to start the three nodes so that they mine into the first two walle
 
 in node_01 (mining to the first wallet):
 ```bash
-/opt/bitmonero/bitmonerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1
+/opt/monero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir /opt/monero/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1
 ```
 
 in node_02 (mining to the second wallet):
 ```bash
-/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh --mining-threads 1
+/opt/monero/monerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh --mining-threads 1
 ```
 
 in node_03 (mining to the first wallet as well):
 ```bash
-/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1
+/opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1
 ```
 
 ## Commands' aliases
@@ -239,90 +233,90 @@ The comments used are rather long, so to speed things up, one can make aliases
 for them. For example, by adding the following to `~/.bashrc`:
 
 ```bash
-alias testmakewallet1='echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_01.bin  --restore-deterministic-wallet --electrum-seed="sequence atlas unveil summon pebbles tuesday beer rudely snake rockets different fuselage woven tagged bested dented vegan hover rapid fawns obvious muppet randomly seasons randomly" --password "" --log-file ~/testnet/wallet_01.log;  echo ""'
+alias testmakewallet1='echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_01.bin  --restore-deterministic-wallet --electrum-seed="sequence atlas unveil summon pebbles tuesday beer rudely snake rockets different fuselage woven tagged bested dented vegan hover rapid fawns obvious muppet randomly seasons randomly" --password "" --log-file /opt/monero/testnet/wallet_01.log;  echo ""'
 
-alias testmakewallet2='echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file ~/testnet/wallet_02.log;  echo ""'
+alias testmakewallet2='echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file /opt/monero/testnet/wallet_02.log;  echo ""'
 
-alias testmakewallet3='echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file ~/testnet/wallet_03.log;  echo ""'
+alias testmakewallet3='echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file /opt/monero/testnet/wallet_03.log;  echo ""'
 
 # additional alias for making random wallet_04
-alias testmakewallet4='{ echo "0"; echo "exit"; } | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_04.bin   --password "" --log-file ~/testnet/wallet_04.log;  echo ""'
+alias testmakewallet4='{ echo "0"; echo "exit"; } | /opt/bitmonero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_04.bin   --password "" --log-file /opt/monero/testnet/wallet_04.log;  echo ""'
 
 alias testmakeallwallets="testmakewallet1; testmakewallet2; testmakewallet3; testmakewallet4"
 
-alias testnode1="/opt/bitmonero/bitmonerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080"
+alias testnode1="/opt/bitmonero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir /opt/monero/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080"
 
-alias testnode2="/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080"
+alias testnode2="/opt/bitmonero/monerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080"
 
-alias testnode3="/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080"
+alias testnode3="/opt/bitmonero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080"
 
-alias testnodeandmine1="/opt/bitmonero/bitmonerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1"
+alias testnodeandmine1="/opt/monero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir /opt/monero/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1"
 
-alias testnodeandmine2="/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh --mining-threads 1"
+alias testnodeandmine2="/opt/monero/monerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh --mining-threads 1"
 
-alias testnodeandmine3="/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1"
+alias testnodeandmine3="/opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1"
 
-alias teststartwallet1='/opt/bitmonero/simplewallet --testnet --trusted-daemon --wallet-file ~/testnet/wallet_01.bin --password "" --log-file ~/testnet/wallet_01.log'
+alias teststartwallet1='/opt/monero/monero-wallet-cli --testnet --trusted-daemon --wallet-file /opt/monero/testnet/wallet_01.bin --password "" --log-file /opt/monero/testnet/wallet_01.log'
 
-alias teststartwallet2='/opt/bitmonero/simplewallet --testnet --daemon-port 38081 --trusted-daemon --wallet-file ~/testnet/wallet_02.bin --password "" --log-file ~/testnet/wallet_02.log'
+alias teststartwallet2='/opt/monero/monero-wallet-cli --testnet --daemon-port 38081 --trusted-daemon --wallet-file /opt/monero/testnet/wallet_02.bin --password "" --log-file /opt/monero/testnet/wallet_02.log'
 
-alias teststartwallet3='/opt/bitmonero/simplewallet --testnet --daemon-port 48081 --trusted-daemon --wallet-file ~/testnet/wallet_03.bin --password "" --log-file ~/testnet/wallet_03.log'
+alias teststartwallet3='/opt/monero/monero-wallet-cli --testnet --daemon-port 48081 --trusted-daemon --wallet-file /opt/monero/testnet/wallet_03.bin --password "" --log-file /opt/monero/testnet/wallet_03.log'
 
-alias teststartwallet4='/opt/bitmonero/simplewallet --testnet --daemon-port 48081 --wallet-file ~/testnet/wallet_04.bin --password "" --log-file ~/testnet/wallet_04.log'
+alias teststartwallet4='/opt/monero/monero-wallet-cli --testnet --daemon-port 48081 --wallet-file /opt/monero/testnet/wallet_04.bin --password "" --log-file /opt/monero/testnet/wallet_04.log'
 
-alias testremove="rm -rvf ~/testnet"
+alias testremove="rm -rvf /opt/monero/testnet"
 
-alias testremoveandmkdir="rm -rvf ~/testnet; mkdir ~/testnet"
+alias testremoveandmkdir="rm -rvf /opt/monero/testnet; mkdir /opt/monero/testnet"
 ```
 
 ## Commands' aliases (with rlwrap)
 As an alternative to the above aliases, the comamnds using `rlwrap` for having
-commands history and tab-compliton in the `bitmonerod` and `simplewallet` consoles
+commands history and tab-compliton in the `monerod` and `monero-wallet-cli` consoles
 are provided. The `rlwrap` is not added for testmakewallet[1-4] aliases.
 
 ```bash
-alias testmakewallet1='echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_01.bin  --restore-deterministic-wallet --electrum-seed="sequence atlas unveil summon pebbles tuesday beer rudely snake rockets different fuselage woven tagged bested dented vegan hover rapid fawns obvious muppet randomly seasons randomly" --password "" --log-file ~/testnet/wallet_01.log;  echo ""'
+alias testmakewallet1='echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_01.bin  --restore-deterministic-wallet --electrum-seed="sequence atlas unveil summon pebbles tuesday beer rudely snake rockets different fuselage woven tagged bested dented vegan hover rapid fawns obvious muppet randomly seasons randomly" --password "" --log-file /opt/monero/testnet/wallet_01.log;  echo ""'
 
-alias testmakewallet2='echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file ~/testnet/wallet_02.log;  echo ""'
+alias testmakewallet2='echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file /opt/monero/testnet/wallet_02.log;  echo ""'
 
-alias testmakewallet3='echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file ~/testnet/wallet_03.log;  echo ""'
+alias testmakewallet3='echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file /opt/monero/testnet/wallet_03.log;  echo ""'
 
-alias testmakewallet4='{ echo "0"; echo "exit"; } | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_04.bin   --password "" --log-file ~/testnet/wallet_04.log;  echo ""'
+alias testmakewallet4='{ echo "0"; echo "exit"; } | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet /opt/monero/testnet/wallet_04.bin   --password "" --log-file /opt/monero/testnet/wallet_04.log;  echo ""'
 
 alias testmakeallwallets="testmakewallet1; testmakewallet2; testmakewallet3; testmakewallet4"
 
-alias testnode1='rlwrap -f ~/monerocommands_bitmonerod.txt /opt/bitmonero/bitmonerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080'
+alias testnode1='rlwrap -f ~/monerocommands_monerod.txt /opt/monero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir /opt/monero/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080'
 
-alias testnode2='rlwrap -f ~/monerocommands_bitmonerod.txt /opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080'
+alias testnode2='rlwrap -f ~/monerocommands_monerod.txt /opt/monero/monerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080'
 
-alias testnode3='rlwrap -f ~/monerocommands_bitmonerod.txt /opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080'
+alias testnode3='rlwrap -f ~/monerocommands_monerod.txt /opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080'
 
-alias testnodeandmine1='rlwrap -f ~/monerocommands_bitmonerod.txt /opt/bitmonero/bitmonerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1'
+alias testnodeandmine1='rlwrap -f ~/monerocommands_monerod.txt /opt/bitmonero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir /opt/monero/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1'
 
-alias testnodeandmine2='rlwrap -f ~/monerocommands_bitmonerod.txt /opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh --mining-threads 1'
+alias testnodeandmine2='rlwrap -f ~/monerocommands_monerod.txt /opt/monero/monerod --testnet --testnet-p2p-bind-port 38080 --testnet-rpc-bind-port 38081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_02 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:48080 --start-mining 9wq792k9sxVZiLn66S3Qzv8QfmtcwkdXgM5cWGsXAPxoQeMQ79md51PLPCijvzk1iHbuHi91pws5B7iajTX9KTtJ4bh2tCh --mining-threads 1'
 
-alias testnodeandmine3='rlwrap -f ~/monerocommands_bitmonerod.txt /opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1'
+alias testnodeandmine3='rlwrap -f ~/monerocommands_monerod.txt /opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir /opt/monero/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080 --start-mining 9wviCeWe2D8XS82k2ovp5EUYLzBt9pYNW2LXUFsZiv8S3Mt21FZ5qQaAroko1enzw3eGr9qC7X1D7Geoo2RrAotYPwq9Gm8 --mining-threads 1'
 
-alias teststartwallet1='rlwrap -f ~/monerocommands_simplewallet.txt /opt/bitmonero/simplewallet --testnet --trusted-daemon --wallet-file ~/testnet/wallet_01.bin --password "" --log-file ~/testnet/wallet_01.log'
+alias teststartwallet1='rlwrap -f ~/monerocommands_monero-wallet-cli.txt /opt/monero/monero-wallet-cli --testnet --trusted-daemon --wallet-file /opt/monero/testnet/wallet_01.bin --password "" --log-file /opt/monero/testnet/wallet_01.log'
 
-alias teststartwallet2='rlwrap -f ~/monerocommands_simplewallet.txt /opt/bitmonero/simplewallet --testnet --daemon-port 38081 --wallet-file ~/testnet/wallet_02.bin --password "" --log-file ~/testnet/wallet_02.log'
+alias teststartwallet2='rlwrap -f ~/monerocommands_monero-wallet-cli.txt /opt/monero/monero-wallet-cli --testnet --daemon-port 38081 --wallet-file /opt/monero/testnet/wallet_02.bin --password "" --log-file /opt/monero/testnet/wallet_02.log'
 
-alias teststartwallet3='rlwrap -f ~/monerocommands_simplewallet.txt /opt/bitmonero/simplewallet --testnet --daemon-port 48081 --wallet-file ~/testnet/wallet_03.bin --password "" --log-file ~/testnet/wallet_03.log'
+alias teststartwallet3='rlwrap -f ~/monerocommands_monero-wallet-cli.txt /opt/monero/monero-wallet-cli --testnet --daemon-port 48081 --wallet-file /opt/monero/testnet/wallet_03.bin --password "" --log-file /opt/monero/testnet/wallet_03.log'
 
-alias teststartwallet4='rlwrap -f ~/monerocommands_simplewallet.txt /opt/bitmonero/simplewallet --testnet --daemon-port 48081 --wallet-file ~/testnet/wallet_04.bin --password "" --log-file ~/testnet/wallet_04.log'
+alias teststartwallet4='rlwrap -f ~/monerocommands_monero-wallet-cli.txt /opt/monero/monero-wallet-cli --testnet --daemon-port 48081 --wallet-file /opt/monero/testnet/wallet_04.bin --password "" --log-file /opt/monero/testnet/wallet_04.log'
 
-alias testremove="rm -rvf ~/testnet"
+alias testremove="rm -rvf /opt/monero/testnet"
 
-alias testremoveandmkdir="rm -rvf ~/testnet; mkdir ~/testnet"
+alias testremoveandmkdir="rm -rvf /opt/monero/testnet; mkdir /opt/monero/testnet"
 ```
 
-The files `monerocommands_bitmonerod.txt` and `monerocommands_simplewallet.txt` should be downloaded
+The files `monerocommands_monerod.txt` and `monerocommands_monero-wallet-cli.txt` should be downloaded
 and placed in your home folder for the above aliases to work.
 
 ```bash
 cd ~
-wget https://raw.githubusercontent.com/moneroexamples/compile-monero-ubuntu/master/monerocommands_bitmonerod.txt
-wget https://raw.githubusercontent.com/moneroexamples/compile-monero-ubuntu/master/monerocommands_simplewallet.txt
+wget https://raw.githubusercontent.com/moneroexamples/compile-monero-ubuntu/master/monerocommands_monerod.txt
+wget https://raw.githubusercontent.com/moneroexamples/compile-monero-ubuntu/master/monerocommands_monero-wallet-cli.txt
 ```
 
 ## Making transfers
@@ -353,8 +347,3 @@ and we can start mining transfers between wallets.
 ## How can you help?
 
 Constructive criticism, code and website edits are always good. They can be made through github.
-
-Some Monero are also welcome:
-```
-48daf1rG3hE1Txapcsxh6WXNe9MLNKtu7W7tKTivtSoVLHErYzvdcpea2nSTgGkz66RFP4GKVAsTV14v6G3oddBTHfxP6tU
-```    
