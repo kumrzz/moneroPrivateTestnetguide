@@ -5,7 +5,7 @@ with Monero without risking making expensive mistakes on real network. However,
 it is not clear how to set up a private testnet network. In this example, this
 is demonstrated.
 
-The example was executed on Xubuntu 15.10 x64 using Monero 0.9.
+The example was executed on Lubuntu 15.10 x64 using Monero 0.9.
 Instructions on how to compile Monero are avaliable here:
 [compile-monero-09-on-ubuntu](https://github.com/moneroexamples/compile-monero-09-on-ubuntu).
 
@@ -65,7 +65,7 @@ The `simplewallet` options are:
 
 **For wallet_02.bin:**
 ```bash
-echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file ~/testnet/wallet_02.log;  echo ""
+echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_02.bin  --restore-deterministic-wallet --electrum-seed="deftly large tirade gumball android leech sidekick opened iguana voice gels focus poaching itches network espionage much jailed vaults winter oatmeal eleven science siren winter" --password "" --log-file ~/testnet/wallet_02.log;  echo ""
 ```
 
 Resulting address:
@@ -77,7 +77,7 @@ The `simplewallet` options are as before.
 
 **For wallet_03.bin:**
 ```bash
-echo "exit" | /opt/bitmonero/simplewallet --testnet --generate-new-wallet ~/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file ~/testnet/wallet_03.log;  echo ""
+echo "exit" | /opt/monero/monero-wallet-cli --testnet --generate-new-wallet ~/testnet/wallet_03.bin  --restore-deterministic-wallet --electrum-seed="upstairs arsenic adjust emulate karate efficient demonstrate weekday kangaroo yoga huts seventh goes heron sleepless fungal tweezers zigzags maps hedgehog hoax foyer jury knife karate" --password "" --log-file ~/testnet/wallet_03.log;  echo ""
 ```
 
 Resulting address:
@@ -92,7 +92,7 @@ The `simplewallet` options are as before.
 The node will listen for connections at port 28080 and connect to the two other nodes, i.e., those on ports 38080 and 48080. It will store its blockchain in `~/testnet/node_01`.
 
 ```bash
-/opt/bitmonero/bitmonerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080
+/opt/monero/monerod --testnet --no-igd --hide-my-port --testnet-data-dir ~/testnet/node_01 --p2p-bind-ip 127.0.0.1 --log-level 1 --add-exclusive-node 127.0.0.1:38080 --add-exclusive-node 127.0.0.1:48080
 ```
 
 The `bitmonerod` options are:
@@ -125,7 +125,7 @@ The node will listen for connections at port 48080 and connect to the two other 
 
 
 ```bash
-/opt/bitmonero/bitmonerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080
+/opt/monero/monerod --testnet --testnet-p2p-bind-port 48080 --testnet-rpc-bind-port 48081 --no-igd --hide-my-port  --log-level 1 --testnet-data-dir ~/testnet/node_03 --p2p-bind-ip 127.0.0.1 --add-exclusive-node 127.0.0.1:28080 --add-exclusive-node 127.0.0.1:38080
 ```
 
 `bitmonerod` options as before, but with different ports.
@@ -166,7 +166,7 @@ wallet_01:
 
 wallet_02:
 ```
-/opt/bitmonero/simplewallet --testnet --daemon-port 38081 --trusted-daemon --wallet-file ~/testnet/wallet_02.bin --password "" --log-file ~/testnet/wallet_02.log
+/opt/monero/monero-wallet-cli --testnet --daemon-port 38081 --trusted-daemon --wallet-file /opt/monero/testnet/wallet_02.bin --password "" --log-file /opt/monero/testnet/wallet_02.log
 ```
 
 wallet_03:
